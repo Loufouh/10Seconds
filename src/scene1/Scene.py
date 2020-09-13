@@ -14,7 +14,7 @@ from AnimatedGameObject import AnimatedGameObject
 from Interaction import interactionFromGameObject
 from InteractionList import InteractionList
 
-from GameButton import *
+from GameButton import GameButton 
 
 class Scene(EnigmaScene):
     def __init__(self, sceneHandler=None):

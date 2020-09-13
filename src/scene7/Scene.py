@@ -21,16 +21,9 @@ from snakyPlayers.WallAndShortcut import WallAndShortcut as Player
 
 class Scene(EnigmaScene):
     def __init__(self, sceneHandler=None):
-        super().__init__(sceneHandler=sceneHandler, nextSceneName="menu")
+        super().__init__(sceneHandler=sceneHandler, nextSceneName="scene8")
 
         clock = sceneHandler.clock
-
-        self.font = pygame.font.SysFont("Comic Sans MS", 60)
-
-        self.questionTxt = "Mange la pomme"
-        self.questionDim = self.font.size(self.questionTxt)
-        self.questionSurface = self.font.render(self.questionTxt, False, (255, 255, 255))
-
         self.player = Player([10, WINDOW_DIMENSIONS[1]/2])
 
     def update(self):
@@ -47,8 +40,6 @@ class Scene(EnigmaScene):
         pygame.draw.rect(drawingSurface, (255, 52, 52), (600, 500, 25, 25))
         self.player.drawOn(drawingSurface)
         pygame.draw.rect(drawingSurface, (52, 135, 52), (540, 0, 12, WINDOW_DIMENSIONS[1]))
-
-        drawingSurface.blit(self.questionSurface, (WINDOW_DIMENSIONS[0]/2 - self.questionDim[0]/2, WINDOW_DIMENSIONS[1]/4 + self.questionDim[1]/2))
 
     def handleEvents(self, events):
         super().handleEvents(events)

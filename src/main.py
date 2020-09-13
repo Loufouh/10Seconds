@@ -12,6 +12,8 @@ from scene4.Scene import Scene as Scene4
 from scene5.Scene import Scene as Scene5
 from scene6.Scene import Scene as Scene6
 from scene7.Scene import Scene as Scene7
+from scene8.Scene import Scene as Scene8
+from win.Scene import Scene as WinScene
 
 from constants import WINDOW_DIMENSIONS
 
@@ -29,9 +31,11 @@ sceneHandler.addScene(Scene4(sceneHandler), "scene4")
 sceneHandler.addScene(Scene5(sceneHandler), "scene5")
 sceneHandler.addScene(Scene6(sceneHandler), "scene6")
 sceneHandler.addScene(Scene7(sceneHandler), "scene7")
+sceneHandler.addScene(Scene8(sceneHandler), "scene8")
+sceneHandler.addScene(WinScene(sceneHandler), "winScene")
 
 sceneHandler.setCurrentScene("menu")
-sceneHandler.setCurrentScene("scene6")
+sceneHandler.setCurrentScene("scene8")
 
 while sceneHandler.getCurrentScene().getKeepRunning():
     sceneHandler.getCurrentScene().handleEvents(pygame.event.get())
