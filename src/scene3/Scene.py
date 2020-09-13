@@ -25,7 +25,7 @@ class Scene(EnigmaScene):
 
         clock = sceneHandler.clock
 
-        self.font = pygame.font.SysFont("Comic Sans MS", 60)
+        self.font = pygame.font.Font("freesansbold.ttf", 45)
 
         self.questionTxt = "Mange la pomme"
         self.questionDim = self.font.size(self.questionTxt)

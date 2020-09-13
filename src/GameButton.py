@@ -10,7 +10,7 @@ class GameButton(GameObject):
         self.dim = list(dim)
         self.text = text;
     
-        self.font = pygame.font.SysFont("Comic Sans MS", 50)
+        self.font = pygame.font.Font("freesansbold.ttf", 38)
         self.textSurface = self.font.render(text, False, (52, 52, 52))
         self.textDim = self.font.size(text)
 

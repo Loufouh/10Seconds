@@ -21,7 +21,7 @@ class Scene(Scene_abstract):
 
         clock = sceneHandler.clock
 
-        self.font = pygame.font.SysFont("Comic Sans MS", 120)
+        self.font = pygame.font.Font("freesansbold.ttf", 90)
         self.txt = "Jeu terminé !"
         self.txtDim = self.font.size(self.txt)
         self.txtSurface = self.font.render(self.txt, False, (255, 255, 255))

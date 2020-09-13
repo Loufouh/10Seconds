@@ -24,7 +24,7 @@ class Scene(EnigmaScene):
 
         clock = sceneHandler.clock
 
-        self.font = pygame.font.SysFont("Comic Sans MS", 120)
+        self.font = pygame.font.Font("freesansbold.ttf", 90)
 
         self.questionAnimationTime = 0
         self.questionAnimationMaxAngle = 0

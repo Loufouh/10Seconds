@@ -22,7 +22,7 @@ class Scene(EnigmaScene):
 
         self.interactions = InteractionList()
     
-        self.font = pygame.font.SysFont("Comic Sans MS", 120)
+        self.font = pygame.font.Font("freesansbold.ttf", 90)
 
         self.questionTxt = "1 + 1 = ?"
         self.questionDim = self.font.size(self.questionTxt)

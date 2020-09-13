@@ -21,7 +21,7 @@ class Scene(Scene_abstract):
 
         clock = sceneHandler.clock
 
-        self.font = pygame.font.SysFont("Comic Sans MS", 125)
+        self.font = pygame.font.Font("freesansbold.ttf", 96)
 
         self.titleStr = "10 Seconds"
         self.titleDim = self.font.size(self.titleStr)

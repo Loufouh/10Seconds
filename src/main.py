@@ -2,6 +2,9 @@
 
 import pygame
 
+if False:
+    import pygame._view
+
 from SceneHandler import SceneHandler
 
 from menu.Scene import Scene as MenuScene

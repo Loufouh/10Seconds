@@ -24,7 +24,7 @@ class EnigmaScene(Scene):
 
         self.backgroundColor = (52, 52, 255)
 
-        self.timerFont = pygame.font.SysFont("Comic Sans MS", 80)
+        self.timerFont = pygame.font.Font("freesansbold.ttf", 75)
 
     def update(self):
         super().update()
