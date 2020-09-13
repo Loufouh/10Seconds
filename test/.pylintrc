@@ -1,0 +1,5 @@
+[MASTER]
+disable=
+	C0114, C0116, C0115, # missing-module-docstring
+	C0103, # file naming (avoid class begin by uppercase)
+	E0401, C0413, # src import
