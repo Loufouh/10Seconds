@@ -30,7 +30,7 @@ class Scene(EnigmaScene):
         super().update()
         self.player.update(self.clock.get_time())
 
-        if self.timer <= 3000 and pygame.Rect(self.player.pos, self.player.dim).colliderect(self.getTimerRect()):
+        if pygame.Rect(self.player.pos, self.player.dim).colliderect((600, 500, 25, 25)):
             self.win()
 
     def draw(self, drawingSurface):
@@ -39,7 +39,7 @@ class Scene(EnigmaScene):
 
         pygame.draw.rect(drawingSurface, (255, 52, 52), (600, 500, 25, 25))
         self.player.drawOn(drawingSurface)
-        pygame.draw.rect(drawingSurface, (52, 135, 52), (540, 0, 12, WINDOW_DIMENSIONS[1]))
+        pygame.draw.rect(drawingSurface, (255, 255, 255), (540, 0, 12, WINDOW_DIMENSIONS[1]))
 
     def handleEvents(self, events):
         super().handleEvents(events)

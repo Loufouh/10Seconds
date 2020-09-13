@@ -2,8 +2,7 @@
 
 import pygame
 
-from pygame.locals import MOUSEBUTTONDOWN
-from math import pi, sin
+from pygame.locals import KEYDOWN, K_DOWN, K_LEFT, K_UP, K_RIGHT 
 
 from constants import *
 
@@ -18,75 +17,43 @@ from InteractionList import InteractionList
 
 from GameButton import GameButton
 
+from snakyPlayers.WallAndShortcut import WallAndShortcut as Player
+
 class Scene(EnigmaScene):
     def __init__(self, sceneHandler=None):
-        super().__init__(sceneHandler=sceneHandler, nextSceneName="winScene")
+        super().__init__(sceneHandler=sceneHandler, nextSceneName="scene9")
 
         clock = sceneHandler.clock
-
-        self.font = pygame.font.SysFont("Comic Sans MS", 120)
-
-        self.questionAnimationTime = 0
-        self.questionAnimationMaxAngle = 0
-        self.angle = 0
-        self.questionHitCounter = 0
-        self.questionFalling = False
-        self.questionPos = []
-
-        self.questionTxt = "Victoire !"
-        self.questionDim = self.font.size(self.questionTxt)
-
-        self.questionSurface = pygame.Surface([a + 20 for a in self.questionDim]).convert_alpha()
-        self.questionSurface.fill((255, 255, 255))
-
-        self.questionSurface.blit(self.font.render(self.questionTxt, False, (52, 52, 255)), (10, 10))
-
-        buttonDim = [200, 80]
-        self.hiddenButton = GameButton([(a - b)/2 for a, b in zip(WINDOW_DIMENSIONS, buttonDim)], buttonDim, "Continuer")
-        self.interactions.add(interactionFromGameObject(self.hiddenButton, "continueButton"))
-        self.interactions.getInteraction("continueButton").addAction(self.win)
-
-        self.interactions.setInactive()
+        self.player = Player([10, WINDOW_DIMENSIONS[1]/2])
 
     def update(self):
         super().update()
-        self.timer = 10000
-        self.questionAnimationTime += self.clock.get_time()
+        self.player.update(self.clock.get_time())
 
-        if self.questionFalling:
-            self.questionPos[1] += self.clock.get_time()*1000/1000 # 1000 px/s
-        else:
-            self.questionPos = [(a - b)/2 for a, b in zip(WINDOW_DIMENSIONS, self.getRotatedQuestionSurface().get_size())]
+        if self.timer <= 3000 and pygame.Rect(self.player.pos, self.player.dim).colliderect(self.getTimerRect()):
+            self.win()
 
     def draw(self, drawingSurface):
         drawingSurface.fill(self.backgroundColor)
         super().draw(drawingSurface)
 
-        self.hiddenButton.drawOn(drawingSurface)
-        drawingSurface.blit(self.getRotatedQuestionSurface(), self.questionPos)
+        pygame.draw.rect(drawingSurface, (255, 52, 52), (600, 500, 25, 25))
+        self.player.drawOn(drawingSurface)
+        pygame.draw.rect(drawingSurface, (255, 255, 255), (540, 0, 12, WINDOW_DIMENSIONS[1]))
 
     def handleEvents(self, events):
         super().handleEvents(events)
 
         for event in events:
-            if event.type == MOUSEBUTTONDOWN:
-                if pygame.Rect(self.questionSurface.get_rect(center=[a/2 for a in WINDOW_DIMENSIONS])).collidepoint(event.pos):
-                    if self.questionFalling:
-                        continue
-
-                    if self.questionHitCounter >= 20:
-                        self.questionFalling = True
-                        self.interactions.setActive()
-                    else:
-                        self.questionHitCounter += 1
-
-                    self.questionAnimationTime = 0
-                    self.questionAnimationMaxAngle = 50/20*self.questionHitCounter + 5
-
-    def getRotatedQuestionSurface(self):
-        x  = self.questionAnimationTime/100
-        maxAngle = self.questionAnimationMaxAngle
-
-        if x >= 5:
-            return self.questionSurface
-        return pygame.transform.rotate(self.questionSurface, sin(x)*(-x*maxAngle/5 + maxAngle))
+            if event.type == KEYDOWN:
+                if event.key == K_DOWN:
+                    self.player.direction = (0, 1)
+                elif event.key == K_LEFT:
+                    self.player.direction = (-1, 0)
+                elif event.key == K_UP:
+                    self.player.direction = (0, -1)
+                elif event.key == K_RIGHT:
+                    self.player.direction = (1, 0)
+    def win(self):
+        super().win()
+        self.player.direction = (0, 0)

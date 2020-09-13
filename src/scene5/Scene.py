@@ -2,7 +2,7 @@
 
 import pygame
 
-from pygame.locals import KEYDOWN, K_DOWN, K_LEFT, K_UP, K_RIGHT 
+from pygame.locals import MOUSEBUTTONDOWN
 
 from constants import *
 
@@ -17,43 +17,41 @@ from InteractionList import InteractionList
 
 from GameButton import GameButton
 
-from snakyPlayers.Normal import Normal as Player
-
 class Scene(EnigmaScene):
     def __init__(self, sceneHandler=None):
         super().__init__(sceneHandler=sceneHandler, nextSceneName="scene6")
 
         clock = sceneHandler.clock
-        self.player = Player([10, WINDOW_DIMENSIONS[1]/2])
+
+        self.font = pygame.font.SysFont("Comic Sans MS", 120)
+
+        self.questionTxt = "Victoire !"
+        self.questionDim = self.font.size(self.questionTxt)
+
+        self.questionSurface = self.font.render(self.questionTxt, False, (255, 255, 255))
+
+        self.showButton = False
+        buttonDim = [200, 80]
+
+        self.button = GameButton([a - b - 20 for a, b in zip(WINDOW_DIMENSIONS, buttonDim)], buttonDim, "Continuer")
+        self.interactions.add(interactionFromGameObject(self.button, "continueButton"))
+        self.interactions.getInteraction("continueButton").addAction(self.win)
+
+        self.interactions.setInactive()
 
     def update(self):
         super().update()
-        self.player.update(self.clock.get_time())
 
-        if pygame.Rect(self.player.pos, self.player.dim).colliderect((600, 500, 25, 25)):
-            self.win()
+        if self.timer < 500:
+            self.showButton = True
+            self.interactions.setActive()
 
     def draw(self, drawingSurface):
         drawingSurface.fill(self.backgroundColor)
         super().draw(drawingSurface)
 
-        pygame.draw.rect(drawingSurface, (255, 52, 52), (600, 500, 25, 25))
-        self.player.drawOn(drawingSurface)
+        drawingSurface.blit(self.questionSurface, [(a - b)/2 for a, b in zip(WINDOW_DIMENSIONS, self.questionDim)])
 
-    def handleEvents(self, events):
-        super().handleEvents(events)
+        if self.showButton:
+            self.button.drawOn(drawingSurface)
 
-        for event in events:
-            if event.type == KEYDOWN:
-                if event.key == K_DOWN:
-                    self.player.direction = (0, 1 - 2*(self.timer//1000%2 == 0))
-                elif event.key == K_LEFT:
-                    self.player.direction = (-1 + 2*(self.timer//1000%2 == 0), 0)
-                elif event.key == K_UP:
-                    self.player.direction = (0, -1 + 2*(self.timer//1000%2 == 0))
-                elif event.key == K_RIGHT:
-                    self.player.direction = (1 - 2*(self.timer//1000%2 == 0), 0)
-
-    def win(self):
-        super().win()
-        self.player.direction = (0, 0)

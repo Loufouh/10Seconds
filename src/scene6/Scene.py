@@ -17,7 +17,7 @@ from InteractionList import InteractionList
 
 from GameButton import GameButton
 
-from snakyPlayers.WallAndShortcut import WallAndShortcut as Player
+from snakyPlayers.Normal import Normal as Player
 
 class Scene(EnigmaScene):
     def __init__(self, sceneHandler=None):
@@ -39,7 +39,6 @@ class Scene(EnigmaScene):
 
         pygame.draw.rect(drawingSurface, (255, 52, 52), (600, 500, 25, 25))
         self.player.drawOn(drawingSurface)
-        pygame.draw.rect(drawingSurface, (52, 135, 52), (540, 0, 12, WINDOW_DIMENSIONS[1]))
 
     def handleEvents(self, events):
         super().handleEvents(events)
@@ -47,13 +46,14 @@ class Scene(EnigmaScene):
         for event in events:
             if event.type == KEYDOWN:
                 if event.key == K_DOWN:
-                    self.player.direction = (0, 1)
+                    self.player.direction = (0, 1 - 2*(self.timer//1000%2 == 0))
                 elif event.key == K_LEFT:
-                    self.player.direction = (-1, 0)
+                    self.player.direction = (-1 + 2*(self.timer//1000%2 == 0), 0)
                 elif event.key == K_UP:
-                    self.player.direction = (0, -1)
+                    self.player.direction = (0, -1 + 2*(self.timer//1000%2 == 0))
                 elif event.key == K_RIGHT:
-                    self.player.direction = (1, 0)
+                    self.player.direction = (1 - 2*(self.timer//1000%2 == 0), 0)
+
     def win(self):
         super().win()
         self.player.direction = (0, 0)
